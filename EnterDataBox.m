@@ -22,7 +22,7 @@ function varargout = EnterDataBox(varargin)
 
 % Edit the above text to modify the response to help EnterDataBox
 
-% Last Modified by GUIDE v2.5 04-Oct-2015 14:52:52
+% Last Modified by GUIDE v2.5 04-Oct-2015 15:24:39
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -167,18 +167,18 @@ end
 
 
 
-function sHeight_Callback(hObject, eventdata, handles)
-% hObject    handle to sHeight (see GCBO)
+function sDim_Callback(hObject, eventdata, handles)
+% hObject    handle to sDim (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of sHeight as text
-%        str2double(get(hObject,'String')) returns contents of sHeight as a double
+% Hints: get(hObject,'String') returns contents of sDim as text
+%        str2double(get(hObject,'String')) returns contents of sDim as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function sHeight_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to sHeight (see GCBO)
+function sDim_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to sDim (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -217,10 +217,11 @@ function okayButton_Callback(hObject, eventdata, handles)
 % hObject    handle to okayButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+close;
 
 % --- Executes on button press in cancelButton.
 function cancelButton_Callback(hObject, eventdata, handles)
 % hObject    handle to cancelButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+close;
