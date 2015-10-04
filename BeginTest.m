@@ -22,7 +22,7 @@ function varargout = BeginTest(varargin)
 
 % Edit the above text to modify the response to help BeginTest
 
-% Last Modified by GUIDE v2.5 04-Oct-2015 12:11:06
+% Last Modified by GUIDE v2.5 04-Oct-2015 13:24:32
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -88,3 +88,24 @@ function quitButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 close;
+
+
+% --- Executes on button press in loadDataButton.
+function loadDataButton_Callback(hObject, eventdata, handles)
+% hObject    handle to loadDataButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton4.
+function pushbutton4_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
