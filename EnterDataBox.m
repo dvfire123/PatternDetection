@@ -22,7 +22,7 @@ function varargout = EnterDataBox(varargin)
 
 % Edit the above text to modify the response to help EnterDataBox
 
-% Last Modified by GUIDE v2.5 04-Oct-2015 15:24:39
+% Last Modified by GUIDE v2.5 04-Oct-2015 17:33:12
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -71,7 +71,6 @@ function varargout = EnterDataBox_OutputFcn(hObject, eventdata, handles)
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
-
 
 
 function lastName_Callback(hObject, eventdata, handles)
@@ -217,11 +216,39 @@ function okayButton_Callback(hObject, eventdata, handles)
 % hObject    handle to okayButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-close;
+
+%Save user data
+folder = getappdata(BeginTest, 'dataPath');
+file = saveUserData(EnterDataBox, folder);
+setappdata(BeginTest, 'mostRecentDin', file);
+close(EnterDataBox);
 
 % --- Executes on button press in cancelButton.
 function cancelButton_Callback(hObject, eventdata, handles)
 % hObject    handle to cancelButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-close;
+close(EnterDataBox);
+
+
+
+function Ns_Callback(hObject, eventdata, handles)
+% hObject    handle to Ns (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of Ns as text
+%        str2double(get(hObject,'String')) returns contents of Ns as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function Ns_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to Ns (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end

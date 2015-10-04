@@ -22,7 +22,7 @@ function varargout = BeginTest(varargin)
 
 % Edit the above text to modify the response to help BeginTest
 
-% Last Modified by GUIDE v2.5 04-Oct-2015 15:15:50
+% Last Modified by GUIDE v2.5 04-Oct-2015 17:53:53
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -51,6 +51,14 @@ function BeginTest_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to BeginTest (see VARARGIN)
+
+%Most recent datavpath = null
+dataFolder = 'UserData';
+setappdata(gcf, 'mostRecentDin', 0);
+setappdata(gcf, 'dataPath', dataFolder);
+if ~exist(dataFolder, 'dir')
+   mkdir(dataFolder); 
+end
 
 % Choose default command line output for BeginTest
 handles.output = hObject;
@@ -87,7 +95,7 @@ function quitButton_Callback(hObject, eventdata, handles)
 % hObject    handle to quitButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-close;
+close(BeginTest);
 
 
 % --- Executes on button press in loadDataButton.
@@ -111,14 +119,8 @@ function dispDataButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
-% --- If Enable == 'on', executes on mouse press in 5 pixel border.
-% --- Otherwise, executes on mouse press in 5 pixel border or over titleLabel.
-function titleLabel_ButtonDownFcn(hObject, eventdata, handles)
-% hObject    handle to titleLabel (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
+%TODO: load the current data
+figure(EnterDataBox);
 
 % --- Executes on button press in credits.
 function credits_Callback(hObject, eventdata, handles)
@@ -127,3 +129,11 @@ function credits_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 figure(cbox);
+
+
+% --- If Enable == 'on', executes on mouse press in 5 pixel border.
+% --- Otherwise, executes on mouse press in 5 pixel border or over titleLabel.
+function titleLabel_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to titleLabel (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
