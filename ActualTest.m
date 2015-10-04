@@ -51,15 +51,16 @@ function ActualTest_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to ActualTest (see VARARGIN)
-global percentWhite sHeight sWidth prob targ;
+global percentWhite sHeight sWidth prob targ Ns;
 
 %Set up the stimulus
-percentWhite = 90;
-sHeight = 50;
+percentWhite = getappdata(ActualTest, 'percentWhite');
+sHeight = getappdata(ActualTest, 'sDim');
 sWidth = sHeight;
+Ns = getappdata(ActualTest, 'Ns');
 
 %Prob. of target in stim
-prob = 0.7;
+prob = getappdata(ActualTest, 'p');
 
 %plot the patterns
 targ = getappdata(0, 'targ');
@@ -72,8 +73,6 @@ hold on;
 genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
 
 %Next we are going to store some more data:
-NS = 10;
-set(handles.stimulusLabel, 'UserData', NS);
 testNum = 1;
 s = sprintf('Test: %d/%d', testNum, NS);
 set(handles.testCountLabel, 'String', s);
@@ -107,7 +106,7 @@ function yesButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Gets the next image
-global percentWhite sHeight sWidth prob targ;
+global percentWhite sHeight sWidth prob targ Ns;
 
 axes(handles.stimulus);
 delete(get(handles.stimulus, 'Children'));
@@ -116,10 +115,9 @@ genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
 
 %TODO: record yes response
 testNum = get(handles.testCountLabel, 'UserData');
-NS = get(handles.stimulusLabel, 'UserData');
 testNum = testNum + 1;
 
-if testNum > NS
+if testNum > Ns
    figure(BeginTest);
    close(ActualTest);
 else
@@ -136,7 +134,7 @@ function noButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Gets the next image
-global percentWhite sHeight sWidth prob targ;
+global percentWhite sHeight sWidth prob targ Ns;
 
 axes(handles.stimulus);
 delete(get(handles.stimulus, 'Children'));
@@ -146,9 +144,8 @@ genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
 %TODO: record no response
 testNum = get(handles.testCountLabel, 'UserData');
 testNum = testNum + 1;
-NS = get(handles.stimulusLabel, 'UserData');
 
-if testNum > NS
+if testNum > Ns
    figure(BeginTest);
    close(ActualTest);
 else

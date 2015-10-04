@@ -5,6 +5,7 @@ function file = saveUserData(fig, folder)
     wsHandle = findobj(fig, 'Tag', 'wspace');
     probHandle = findobj(fig, 'Tag', 'p');
     dimHandle = findobj(fig, 'Tag', 'sDim');
+    nsHandle = findobj(fig, 'Tag', 'Ns');
     
     ln = get(lnHandle, 'String');
     fn = get(fnHandle, 'String');
@@ -17,16 +18,18 @@ function file = saveUserData(fig, folder)
     fid = fopen(file, 'wt');
     
     %Write to the file
-    fprintf(fid, '%s', fn);
-    fprintf(fid, '%s', ln);
+    fprintf(fid, '%s\n', fn);
+    fprintf(fid, '%s\n', ln);
     
     ws = get(wsHandle, 'String');
     prob = get(probHandle, 'String');
     sDim = get(dimHandle, 'String');
+    Ns = get(nsHandle, 'String');
     
-    fprintf(fid, '%d', ws);
-    fprintf(fid, '%f', prob);
-    fprintf(fid, '%d', sDim);
+    fprintf(fid, '%s\n', ws);
+    fprintf(fid, '%s\n', prob);
+    fprintf(fid, '%s\n', sDim);
+    fprintf(fid, '%s\n', Ns);
     
-    close(gcf);
+    fclose(fid);
 end

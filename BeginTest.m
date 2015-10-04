@@ -54,7 +54,6 @@ function BeginTest_OpeningFcn(hObject, eventdata, handles, varargin)
 
 %Most recent datavpath = null
 dataFolder = 'UserData';
-setappdata(gcf, 'mostRecentDin', 0);
 setappdata(gcf, 'dataPath', dataFolder);
 if ~exist(dataFolder, 'dir')
    mkdir(dataFolder); 
@@ -113,21 +112,11 @@ function enterDataButton_Callback(hObject, eventdata, handles)
 figure(EnterDataBox);
 
 
-% --- Executes on button press in dispDataButton.
-function dispDataButton_Callback(hObject, eventdata, handles)
-% hObject    handle to dispDataButton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-%TODO: load the current data
-figure(EnterDataBox);
-
 % --- Executes on button press in credits.
 function credits_Callback(hObject, eventdata, handles)
 % hObject    handle to credits (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
 figure(cbox);
 
 

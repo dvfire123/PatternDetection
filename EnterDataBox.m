@@ -80,7 +80,7 @@ function lastName_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of lastName as text
 %        str2double(get(hObject,'String')) returns contents of lastName as a double
-disp(get(hObject,'String'));
+
 
 % --- Executes during object creation, after setting all properties.
 function lastName_CreateFcn(hObject, eventdata, handles)
@@ -103,7 +103,7 @@ function firstName_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of firstName as text
 %        str2double(get(hObject,'String')) returns contents of firstName as a double
-disp(get(hObject,'String'));
+
 
 
 % --- Executes during object creation, after setting all properties.
@@ -220,7 +220,28 @@ function okayButton_Callback(hObject, eventdata, handles)
 %Save user data
 folder = getappdata(BeginTest, 'dataPath');
 file = saveUserData(EnterDataBox, folder);
-setappdata(BeginTest, 'mostRecentDin', file);
+A = loadUserData(file);
+setappdata(BeginTest, 'userData', A);
+
+%This section updates the info on the begin test panel
+lnHandle = findobj(BeginTest, 'Tag', 'lnLabel');
+fnHandle = findobj(BeginTest, 'Tag', 'fnLabel');
+wsHandle = findobj(BeginTest, 'Tag', 'wsLabel');
+probHandle = findobj(BeginTest, 'Tag', 'pLabel');
+dimHandle = findobj(BeginTest, 'Tag', 'dimLabel');
+nsHandle = findobj(BeginTest, 'Tag', 'nsLabel');
+
+set(lnHandle, 'String', A{2});
+set(fnHandle, 'String', A{1});
+set(wsHandle, 'String', A{3});
+set(probHandle, 'String', A{4});
+set(dimHandle, 'String', A{5});
+set(nsHandle, 'String', A{6});
+
+%Turn on Begin Test Button
+okHandle = findobj(BeginTest, 'Tag', 'okayButton');
+set(okHandle, 'Enable', 'on');
+
 close(EnterDataBox);
 
 % --- Executes on button press in cancelButton.
