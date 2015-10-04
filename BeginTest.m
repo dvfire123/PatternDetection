@@ -102,7 +102,29 @@ function loadDataButton_Callback(hObject, eventdata, handles)
 % hObject    handle to loadDataButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+[fileName, pathName] = uigetfile('*.din', 'Please Select a .din file');
+file = fullfile(pathName, fileName);
+A = loadUserData(file);
+setappdata(BeginTest, 'userData', A);
 
+%This section updates the info on the begin test panel
+lnHandle = findobj(BeginTest, 'Tag', 'lnLabel');
+fnHandle = findobj(BeginTest, 'Tag', 'fnLabel');
+wsHandle = findobj(BeginTest, 'Tag', 'wsLabel');
+probHandle = findobj(BeginTest, 'Tag', 'pLabel');
+dimHandle = findobj(BeginTest, 'Tag', 'dimLabel');
+nsHandle = findobj(BeginTest, 'Tag', 'nsLabel');
+
+set(lnHandle, 'String', A{2});
+set(fnHandle, 'String', A{1});
+set(wsHandle, 'String', A{3});
+set(probHandle, 'String', A{4});
+set(dimHandle, 'String', A{5});
+set(nsHandle, 'String', A{6});
+
+%Turn on Begin Test Button
+okHandle = findobj(BeginTest, 'Tag', 'okayButton');
+set(okHandle, 'Enable', 'on');
 
 % --- Executes on button press in enterDataButton.
 function enterDataButton_Callback(hObject, eventdata, handles)
