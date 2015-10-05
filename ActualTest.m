@@ -51,7 +51,7 @@ function ActualTest_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to ActualTest (see VARARGIN)
-global percentWhite sHeight sWidth prob targ Ns outFile t;
+global percentWhite sHeight sWidth prob targ Ns outFile t correct totTime;
 
 %Load parameters
 Inputs = getappdata(BeginTest, 'userData');
@@ -61,6 +61,8 @@ prob = str2double(Inputs{4});
 sHeight = str2double(Inputs{5});
 sWidth = sHeight;
 Ns = str2double(Inputs{6});
+correct = 0;
+totTime = 0;
 
 %plot the patterns
 targ = getappdata(0, 'targ');
@@ -98,6 +100,8 @@ outFile = fullfile(resFolder, fileName);
 
 fid = fopen(outFile, 'at');
 fprintf(fid, 'Name: %s, %s\n', ln, fn);
+fprintf(fid, '%s\n', datestr(now));
+fprintf(fid, '\n');
 fclose(fid);
 
 %Now we have to set up the timer before displaying the
@@ -129,28 +133,7 @@ function yesButton_Callback(hObject, eventdata, handles)
 % hObject    handle to yesButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-%Gets the next image
-global percentWhite sHeight sWidth prob targ Ns;
-
-axes(handles.stimulus);
-delete(get(handles.stimulus, 'Children'));
-hold on;
-genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
-
-%TODO: record yes response
-testNum = get(handles.testCountLabel, 'UserData');
-testNum = testNum + 1;
-
-if testNum > Ns
-   close(gcbf);
-   close(BeginTest);
-   figure(BeginTest);
-else
-    s = sprintf('Test: %d/%d', testNum, Ns);
-    set(handles.testCountLabel, 'String', s);
-    set(handles.testCountLabel, 'UserData', testNum);
-end
+response(hObject, eventdata, handles, 1);
 
 
 % --- Executes on button press in noButton.
@@ -158,28 +141,7 @@ function noButton_Callback(hObject, eventdata, handles)
 % hObject    handle to noButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-%Gets the next image
-global percentWhite sHeight sWidth prob targ Ns;
-
-axes(handles.stimulus);
-delete(get(handles.stimulus, 'Children'));
-hold on;
-genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
-
-%TODO: record no response
-testNum = get(handles.testCountLabel, 'UserData');
-testNum = testNum + 1;
-
-if testNum > Ns
-   close(gcbf);
-   close(BeginTest);
-   figure(BeginTest);
-else
-    s = sprintf('Test: %d/%d', testNum, Ns);
-    set(handles.testCountLabel, 'String', s);
-    set(handles.testCountLabel, 'UserData', testNum);
-end
+response(hObject, eventdata, handles, 0);
 
 % --- Executes on mouse press over axes background.
 function stimulus_ButtonDownFcn(hObject, eventdata, handles)
@@ -206,3 +168,61 @@ set(handles.yesButton, 'Enable', 'on');
 set(handles.noButton, 'Enable', 'on');
 set(handles.timerText, 'Visible', 'off');
 delete(t);
+tic;
+
+
+%%Records User Response
+function response(hObject, eventdata, handles, isYes)
+global percentWhite sHeight sWidth prob targ Ns outFile correct totTime;
+timeSpent = toc;
+totTime = totTime + timeSpent;
+
+axes(handles.stimulus);
+delete(get(handles.stimulus, 'Children'));
+hold on;
+res = genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
+
+%Record response:
+testNum = get(handles.testCountLabel, 'UserData');
+
+resStr = 'No';
+if res == 1
+    resStr = 'Yes';
+end
+
+userStr = 'No';
+if isYes == 1
+    userStr = 'Yes';
+end
+
+if res == isYes
+    correct = correct + 1;
+end
+
+s = sprintf('Trial %d of %d\tUser: %s\tActual: %s\tResponse time: %f sec',...
+    testNum, Ns, userStr, resStr, timeSpent);
+fid = fopen(outFile, 'at');
+fprintf(fid, '%s\n', s);
+fclose(fid);
+
+testNum = testNum + 1;
+
+if testNum > Ns
+   hitRate = 100*correct/Ns;
+   avgTime = totTime/Ns;
+   fid = fopen(outFile, 'at');
+   fprintf(fid, '\nYou got %d out of %d correct\n', correct, Ns);
+   fprintf(fid, 'Hit Rate: %f percent\n', hitRate);
+   fprintf(fid, 'Average response time: %f sec\n', avgTime);
+   fprintf(fid, '----------\n');
+   fclose(fid);
+   
+   close(gcbf);
+   close(BeginTest);
+   figure(BeginTest);
+else
+    s = sprintf('Test: %d/%d', testNum, Ns);
+    set(handles.testCountLabel, 'String', s);
+    set(handles.testCountLabel, 'UserData', testNum);
+    tic;
+end
