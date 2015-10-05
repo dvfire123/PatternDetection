@@ -86,7 +86,7 @@ function okayButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 figure(DrawTarget);
-set(BeginTest, 'Visible', 'off');
+set(gcbf, 'Visible', 'off');
 
 
 % --- Executes on button press in quitButton.
@@ -105,15 +105,15 @@ function loadDataButton_Callback(hObject, eventdata, handles)
 [fileName, pathName] = uigetfile('*.din', 'Please Select a .din file');
 file = fullfile(pathName, fileName);
 A = loadUserData(file);
-setappdata(BeginTest, 'userData', A);
+setappdata(gcbf, 'userData', A);
 
 %This section updates the info on the begin test panel
-lnHandle = findobj(BeginTest, 'Tag', 'lnLabel');
-fnHandle = findobj(BeginTest, 'Tag', 'fnLabel');
-wsHandle = findobj(BeginTest, 'Tag', 'wsLabel');
-probHandle = findobj(BeginTest, 'Tag', 'pLabel');
-dimHandle = findobj(BeginTest, 'Tag', 'dimLabel');
-nsHandle = findobj(BeginTest, 'Tag', 'nsLabel');
+lnHandle = findobj(gcbf, 'Tag', 'lnLabel');
+fnHandle = findobj(gcbf, 'Tag', 'fnLabel');
+wsHandle = findobj(gcbf, 'Tag', 'wsLabel');
+probHandle = findobj(gcbf, 'Tag', 'pLabel');
+dimHandle = findobj(gcbf, 'Tag', 'dimLabel');
+nsHandle = findobj(gcbf, 'Tag', 'nsLabel');
 
 set(lnHandle, 'String', A{2});
 set(fnHandle, 'String', A{1});

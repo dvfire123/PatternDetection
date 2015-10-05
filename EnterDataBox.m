@@ -242,14 +242,14 @@ set(nsHandle, 'String', A{6});
 okHandle = findobj(BeginTest, 'Tag', 'okayButton');
 set(okHandle, 'Enable', 'on');
 
-close(EnterDataBox);
+close(gcbf);
 
 % --- Executes on button press in cancelButton.
 function cancelButton_Callback(hObject, eventdata, handles)
 % hObject    handle to cancelButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-close(EnterDataBox);
+close(gcbf);
 
 
 function Ns_Callback(hObject, eventdata, handles)

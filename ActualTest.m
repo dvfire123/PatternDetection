@@ -51,7 +51,7 @@ function ActualTest_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to ActualTest (see VARARGIN)
-global percentWhite sHeight sWidth prob targ Ns;
+global percentWhite sHeight sWidth prob targ Ns outFile;
 
 %Load parameters
 Inputs = getappdata(BeginTest, 'userData');
@@ -83,6 +83,22 @@ handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
+
+%%Create the output folder%%
+resFolder = 'Results';
+if ~exist(resFolder, 'dir')
+    mkdir(resFolder);
+end
+
+ln = Inputs{2};
+fn = Inputs{1};
+
+fileName = sprintf('%s-%s-out.txt', fn, ln);
+outFile = fullfile(resFolder, fileName);
+
+fid = fopen(outFile, 'at');
+fprintf(fid, 'Name: %s, %s\n', ln, fn);
+fclose(fid);
 
 % UIWAIT makes ActualTest wait for user response (see UIRESUME)
 % uiwait(handles.actualTest);
@@ -118,7 +134,7 @@ testNum = get(handles.testCountLabel, 'UserData');
 testNum = testNum + 1;
 
 if testNum > Ns
-   close(ActualTest);
+   close(gcbf);
    close(BeginTest);
    figure(BeginTest);
 else
@@ -147,7 +163,7 @@ testNum = get(handles.testCountLabel, 'UserData');
 testNum = testNum + 1;
 
 if testNum > Ns
-   close(ActualTest);
+   close(gcbf);
    close(BeginTest);
    figure(BeginTest);
 else

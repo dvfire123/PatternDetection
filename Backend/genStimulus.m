@@ -1,10 +1,13 @@
-function stimHandle = genStimulus(p, height, width, percentWhite, target, axesHandle)
+function isInTarget = genStimulus(p, height, width, percentWhite, target, axesHandle)
 %Generates the dot pattern given percent white
 %p: probability that the target will be included in the stimulus or not
+%Returns whether or not the target is in the stimulus
     dotPat = createDotPattern(height, width, percentWhite);
     stim = dotPat;
+    isInTarget = 0;
     if rand <= p
        %target to be included in the stimulus
+       isInTarget = 1;
        newTar = trimTarget(target);
        %randomly insert newTar into tar
        [xt, yt] = size(newTar);
