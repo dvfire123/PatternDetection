@@ -56,18 +56,6 @@ setappdata(0, 'invTarg', targ);
 targAx = findobj('Tag', 'drawTarget');
 set(targAx, 'UserData', targ);
 
-%Now load the appdata from user data
-Inputs = getappdata(BeginTest, 'userData');
-percentWhite = str2double(Inputs{3});
-prob = str2double(Inputs{4});
-sDim = str2double(Inputs{5});
-Ns = str2double(Inputs{6});
-
-setappdata(ActualTest, 'percentWhite', percentWhite);
-setappdata(ActualTest, 'p', prob);
-setappdata(ActualTest, 'sDim', sDim);
-setappdata(ActualTest, 'Ns', Ns);
-
 % Choose default command line output for DrawTarget
 handles.output = hObject;
 
@@ -107,6 +95,7 @@ setappdata(0, 'invTarg', newTarg);
 setappdata(0, 'targ', targ);
 figure(ActualTest);
 close(DrawTarget);
+
 
 % --- Executes on button press in saveTargetButton.
 function saveTargetButton_Callback(hObject, eventdata, handles)

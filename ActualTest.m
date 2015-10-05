@@ -53,14 +53,14 @@ function ActualTest_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to ActualTest (see VARARGIN)
 global percentWhite sHeight sWidth prob targ Ns;
 
-%Set up the stimulus
-percentWhite = getappdata(ActualTest, 'percentWhite');
-sHeight = getappdata(ActualTest, 'sDim');
+%Load parameters
+Inputs = getappdata(BeginTest, 'userData');
+set(BeginTest, 'Visible', 'off');
+percentWhite = str2double(Inputs{3});
+prob = str2double(Inputs{4});
+sHeight = str2double(Inputs{5});
 sWidth = sHeight;
-Ns = getappdata(ActualTest, 'Ns');
-
-%Prob. of target in stim
-prob = getappdata(ActualTest, 'p');
+Ns = str2double(Inputs{6});
 
 %plot the patterns
 targ = getappdata(0, 'targ');
@@ -74,7 +74,7 @@ genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
 
 %Next we are going to store some more data:
 testNum = 1;
-s = sprintf('Test: %d/%d', testNum, NS);
+s = sprintf('Test: %d/%d', testNum, Ns);
 set(handles.testCountLabel, 'String', s);
 set(handles.testCountLabel, 'UserData', testNum);
 
@@ -118,10 +118,11 @@ testNum = get(handles.testCountLabel, 'UserData');
 testNum = testNum + 1;
 
 if testNum > Ns
-   figure(BeginTest);
    close(ActualTest);
+   close(BeginTest);
+   figure(BeginTest);
 else
-    s = sprintf('Test: %d/%d', testNum, NS);
+    s = sprintf('Test: %d/%d', testNum, Ns);
     set(handles.testCountLabel, 'String', s);
     set(handles.testCountLabel, 'UserData', testNum);
 end
@@ -146,10 +147,11 @@ testNum = get(handles.testCountLabel, 'UserData');
 testNum = testNum + 1;
 
 if testNum > Ns
-   figure(BeginTest);
    close(ActualTest);
+   close(BeginTest);
+   figure(BeginTest);
 else
-    s = sprintf('Test: %d/%d', testNum, NS);
+    s = sprintf('Test: %d/%d', testNum, Ns);
     set(handles.testCountLabel, 'String', s);
     set(handles.testCountLabel, 'UserData', testNum);
 end

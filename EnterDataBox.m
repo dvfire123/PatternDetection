@@ -252,7 +252,6 @@ function cancelButton_Callback(hObject, eventdata, handles)
 close(EnterDataBox);
 
 
-
 function Ns_Callback(hObject, eventdata, handles)
 % hObject    handle to Ns (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB

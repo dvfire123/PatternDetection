@@ -86,7 +86,7 @@ function okayButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 figure(DrawTarget);
-close(BeginTest);
+set(BeginTest, 'Visible', 'off');
 
 
 % --- Executes on button press in quitButton.
