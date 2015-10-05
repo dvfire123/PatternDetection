@@ -51,7 +51,7 @@ function ActualTest_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to ActualTest (see VARARGIN)
-global percentWhite sHeight sWidth prob targ Ns outFile;
+global percentWhite sHeight sWidth prob targ Ns outFile t;
 
 %Load parameters
 Inputs = getappdata(BeginTest, 'userData');
@@ -99,6 +99,15 @@ outFile = fullfile(resFolder, fileName);
 fid = fopen(outFile, 'at');
 fprintf(fid, 'Name: %s, %s\n', ln, fn);
 fclose(fid);
+
+%Now we have to set up the timer before displaying the
+%stimulus
+t = timer;
+t.period = 1;
+set(t,'ExecutionMode','fixedrate','StartDelay',0);
+set(t, 'TimerFcn', {@countDown, handles});
+set(t, 'StopFcn', {@timesup, handles});
+start(t);
 
 % UIWAIT makes ActualTest wait for user response (see UIRESUME)
 % uiwait(handles.actualTest);
@@ -177,3 +186,23 @@ function stimulus_ButtonDownFcn(hObject, eventdata, handles)
 % hObject    handle to stimulus (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+%---Calls when the countdown is happening---
+function countDown(hObject, eventdata, handles)
+global t;
+c = str2double(get(handles.timerText, 'String'));
+c = c - 1;
+set(handles.timerText, 'String', num2str(c));
+if c <= 0
+   stop(t); 
+end
+
+
+%---Calls when the timer is up---
+function timesup(hObject, eventdata, handles)
+global t;
+set(handles.yesButton, 'Enable', 'on');
+set(handles.noButton, 'Enable', 'on');
+set(handles.timerText, 'Visible', 'off');
+delete(t);
