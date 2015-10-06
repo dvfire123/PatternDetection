@@ -5,6 +5,8 @@ function isInTarget = genStimulus(p, height, width, percentWhite, target, axesHa
     dotPat = createDotPattern(height, width, percentWhite);
     stim = dotPat;
     isInTarget = 0;
+    rand('twister', 100*sum(clock));
+    
     if rand <= p
        %target to be included in the stimulus
        isInTarget = 1;

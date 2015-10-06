@@ -74,9 +74,6 @@ delete(get(handles.stimulus, 'Children'));
 hold on;
 res = genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
 set(gcf, 'UserData', res);
-gcf
-rTest = get(gcf, 'UserData');
-display(rTest);
 
 %Next we are going to store some more data:
 testNum = 1;
@@ -187,9 +184,7 @@ hold on;
 
 %Record response:
 testNum = get(handles.testCountLabel, 'UserData');
-gcbf
 res = get(gcbf, 'UserData');
-disp(res);
 
 resStr = 'No';
 if res == 1
