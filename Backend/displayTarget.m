@@ -1,10 +1,9 @@
 function imageHandle = displayTarget(targ, axesHandle)
     %Given the target matrix, display the target
-    
-    xl = get(axesHandle, 'XLim');
-    yl = get(axesHandle, 'YLim');
 
-    imageHandle = imagesc(xl, yl, targ, 'Parent', axesHandle);
+    alpha = ~targ;   %creates the alpha matrix for transparency
+    imageHandle = image([0 1], [0 1], targ, 'Parent', axesHandle);
+    set(imageHandle, 'AlphaData', alpha);
     colormap('gray');
     axis equal;
 end

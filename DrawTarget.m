@@ -83,8 +83,7 @@ function beginTestButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Transfers the current target to the new target window
-targAx = findobj('Tag', 'drawTarget');
-targ = get(targAx, 'UserData');
+targ = get(handles.drawTarget, 'UserData');
 newTarg = targ;
 [m, ~] = size(targ);
 for i = 1:m
@@ -119,8 +118,7 @@ function clearButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 axes(handles.drawTarget);
 targ = ones(10, 10);
-targAx = findobj('Tag', 'drawTarget');
-set(targAx, 'UserData', targ);
+set(handles.drawTarget, 'UserData', targ);
 delete(get(handles.drawTarget, 'Children'));
 
 % --- Executes on mouse press over axes background.
