@@ -72,7 +72,11 @@ displayTarget(invTarg, handles.targetReminder);
 axes(handles.stimulus);
 delete(get(handles.stimulus, 'Children'));
 hold on;
-genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
+res = genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
+set(gcf, 'UserData', res);
+gcf
+rTest = get(gcf, 'UserData');
+display(rTest);
 
 %Next we are going to store some more data:
 testNum = 1;
@@ -180,10 +184,12 @@ totTime = totTime + timeSpent;
 axes(handles.stimulus);
 delete(get(handles.stimulus, 'Children'));
 hold on;
-res = genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
 
 %Record response:
 testNum = get(handles.testCountLabel, 'UserData');
+gcbf
+res = get(gcbf, 'UserData');
+disp(res);
 
 resStr = 'No';
 if res == 1
@@ -206,6 +212,8 @@ fprintf(fid, '%s\n', s);
 fclose(fid);
 
 testNum = testNum + 1;
+res = genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
+set(gcbf, 'UserData', res);
 
 if testNum > Ns
    hitRate = 100*correct/Ns;
