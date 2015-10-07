@@ -53,10 +53,14 @@ function EnterDataBox_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to EnterDataBox (see VARARGIN)
 
 %Load latest save info if exists
-global folder latestData; 
-folder = 'UserData';
+global dataFolder latestData; 
+[folder, ~, ~] = fileparts(mfilename('fullpath'));
+userFolder = 'UserData';
+dataFolder = fullfile(folder, userFolder);
+
 latestDataFile = 'latest.txt';
-latestData = fullfile(folder, latestDataFile);
+
+latestData = fullfile(dataFolder, latestDataFile);
 if ~exist(latestData, 'file')
    fid = fopen(latestData, 'wt+'); 
    fclose(fid);
@@ -232,8 +236,8 @@ function okayButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Save user data
-global folder latestData;
-file = saveUserData(gcbf, folder);
+global dataFolder latestData;
+file = saveUserData(gcbf, dataFolder);
 
 %write latest save path to latest.dat
 fid = fopen(latestData, 'rt+');

@@ -88,7 +88,9 @@ handles.output = hObject;
 guidata(hObject, handles);
 
 %%Create the output folder%%
+[folder, ~, ~] = fileparts(mfilename('fullpath'));
 resFolder = 'Results';
+resFolder = fullfile(folder, resFolder);
 if ~exist(resFolder, 'dir')
     mkdir(resFolder);
 end

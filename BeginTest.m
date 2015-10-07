@@ -55,7 +55,10 @@ function BeginTest_OpeningFcn(hObject, eventdata, handles, varargin)
 %Most recent datavpath = null
 global latestData;
 
-dataFolder = 'UserData';
+[folder, ~, ~] = fileparts(mfilename('fullpath'));
+userFolder = 'UserData';
+dataFolder = fullfile(folder, userFolder);
+
 latestDataFile = 'latest.txt';
 if ~exist(dataFolder, 'dir')
    mkdir(dataFolder); 
@@ -63,7 +66,7 @@ end
 
 latestData = fullfile(dataFolder, latestDataFile);
 if ~exist(latestData, 'file')
-   fid = fopen(latestData, 'wt+'); 
+   fid = fopen(latestData, 'wt+');
    fclose(fid);
 end
 
