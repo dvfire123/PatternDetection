@@ -22,7 +22,7 @@ function varargout = ActualTest(varargin)
 
 % Edit the above text to modify the response to help ActualTest
 
-% Last Modified by GUIDE v2.5 07-Oct-2015 18:07:41
+% Last Modified by GUIDE v2.5 07-Oct-2015 18:42:12
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -290,3 +290,23 @@ axes(handles.stimulus);
 delete(get(handles.stimulus, 'Children'));
 hold on;
 blankStimulus(sHeight, sWidth, handles.stimulus);
+
+
+% --- Executes on key press with focus on actualTest or any of its controls.
+function actualTest_WindowKeyPressFcn(hObject, eventdata, handles)
+% hObject    handle to actualTest (see GCBO)
+% eventdata  structure with the following fields (see FIGURE)
+%	Key: name of the key that was pressed, in lower case
+%	Character: character interpretation of the key(s) that was pressed
+%	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
+% handles    structure with handles and user data (see GUIDATA)
+switch eventdata.Key
+  case 'y'
+     if strcmp(get(handles.yesButton, 'Enable'), 'on')
+        yesButton_Callback(hObject, eventdata, handles) 
+     end
+  case 'n'
+      if strcmp(get(handles.noButton, 'Enable'), 'on')
+        noButton_Callback(hObject, eventdata, handles)
+      end
+end
