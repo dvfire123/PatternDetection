@@ -3,6 +3,10 @@ function outArr = loadUserData(file)
     %called "outArr"
     
     fid = fopen(file, 'r');
+    if fid == -1
+       outArr = [];
+       return;
+    end
     numLines = 0;
     
     tline = fgetl(fid);

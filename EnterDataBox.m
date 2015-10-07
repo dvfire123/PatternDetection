@@ -255,6 +255,8 @@ wsHandle = findobj(BeginTest, 'Tag', 'wsLabel');
 probHandle = findobj(BeginTest, 'Tag', 'pLabel');
 dimHandle = findobj(BeginTest, 'Tag', 'dimLabel');
 nsHandle = findobj(BeginTest, 'Tag', 'nsLabel');
+dtHandle = findobj(BeginTest, 'Tag', 'dtLabel');
+wtHandle = findobj(BeginTest, 'Tag', 'wtLabel');
 
 set(lnHandle, 'String', A{2});
 set(fnHandle, 'String', A{1});
@@ -262,6 +264,8 @@ set(wsHandle, 'String', A{3});
 set(probHandle, 'String', A{4});
 set(dimHandle, 'String', A{5});
 set(nsHandle, 'String', A{6});
+set(dtHandle, 'String', A{7});
+set(wtHandle, 'String', A{8});
 
 %Turn on Begin Test Button
 okHandle = findobj(BeginTest, 'Tag', 'okayButton');

@@ -86,6 +86,8 @@ if ischar(latestFile)
     set(handles.pLabel, 'String', A{4});
     set(handles.dimLabel, 'String', A{5});
     set(handles.nsLabel, 'String', A{6});
+    set(handles.dtLabel, 'String', A{7});
+    set(handles.wtLabel, 'String', A{8});
 else
     set(handles.okayButton, 'enable', 'off');
 end
@@ -138,8 +140,18 @@ global latestData;
 [fileName, pathName] = uigetfile('*.din', 'Please Select a .din file');
 file = fullfile(pathName, fileName);
 
+fid = fopen(file, 'r');
+if fid == -1
+   return; 
+end
+fclose(fid);
+
 %update latest file
 fid = fopen(latestData, 'rt+');
+if fid == -1
+    return;
+end
+
 fprintf(fid, '%s', file);
 fclose(fid);
 
@@ -153,6 +165,8 @@ set(handles.wsLabel, 'String', A{3});
 set(handles.pLabel, 'String', A{4});
 set(handles.dimLabel, 'String', A{5});
 set(handles.nsLabel, 'String', A{6});
+set(handles.dtLabel, 'String', A{7});
+set(handles.wtLabel, 'String', A{8});
 
 %Turn on Begin Test Button
 okHandle = findobj(BeginTest, 'Tag', 'okayButton');

@@ -6,6 +6,8 @@ function file = saveUserData(fig, folder)
     probHandle = findobj(fig, 'Tag', 'p');
     dimHandle = findobj(fig, 'Tag', 'sDim');
     nsHandle = findobj(fig, 'Tag', 'Ns');
+    dtHandle = findobj(fig, 'Tag', 'dispTime');
+    wtHandle = findobj(fig, 'Tag', 'waitTime');
     
     ln = get(lnHandle, 'String');
     fn = get(fnHandle, 'String');
@@ -25,11 +27,15 @@ function file = saveUserData(fig, folder)
     prob = get(probHandle, 'String');
     sDim = get(dimHandle, 'String');
     Ns = get(nsHandle, 'String');
+    dt = get(dtHandle, 'String');
+    wt = get(wtHandle, 'String');
     
     fprintf(fid, '%s\n', ws);
     fprintf(fid, '%s\n', prob);
     fprintf(fid, '%s\n', sDim);
     fprintf(fid, '%s\n', Ns);
+    fprintf(fid, '%s\n', dt);
+    fprintf(fid, '%s\n', wt);
     
     fclose(fid);
 end
