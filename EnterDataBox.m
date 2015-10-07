@@ -52,6 +52,32 @@ function EnterDataBox_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to EnterDataBox (see VARARGIN)
 
+%Load latest save info if exists
+global folder latestData; 
+folder = 'UserData';
+latestDataFile = 'latest.txt';
+latestData = fullfile(folder, latestDataFile);
+if ~exist(latestData, 'file')
+   fid = fopen(latestData, 'wt+'); 
+   fclose(fid);
+end
+
+fid = fopen(latestData, 'r');
+latestFile = fgetl(fid);
+fclose(fid);
+
+if ischar(latestFile)
+    %There is latest file path
+    %Load it
+    A = loadUserData(latestFile);    
+    set(handles.lastName, 'String', A{2});
+    set(handles.firstName, 'String', A{1});
+    set(handles.wspace, 'String', A{3});
+    set(handles.p, 'String', A{4});
+    set(handles.sDim, 'String', A{5});
+    set(handles.Ns, 'String', A{6});
+end
+
 % Choose default command line output for EnterDataBox
 handles.output = hObject;
 
@@ -117,7 +143,6 @@ function firstName_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-
 
 
 function wspace_Callback(hObject, eventdata, handles)
@@ -187,17 +212,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
-
-function sWidth_Callback(hObject, eventdata, handles)
-% hObject    handle to sWidth (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of sWidth as text
-%        str2double(get(hObject,'String')) returns contents of sWidth as a double
-
-
 % --- Executes during object creation, after setting all properties.
 function sWidth_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to sWidth (see GCBO)
@@ -218,8 +232,15 @@ function okayButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %Save user data
-folder = getappdata(BeginTest, 'dataPath');
-file = saveUserData(EnterDataBox, folder);
+global folder latestData;
+file = saveUserData(gcbf, folder);
+
+%write latest save path to latest.dat
+fid = fopen(latestData, 'rt+');
+fprintf(fid, '%s', file);
+fclose(fid);
+
+%load saved file
 A = loadUserData(file);
 setappdata(BeginTest, 'userData', A);
 

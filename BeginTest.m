@@ -53,10 +53,38 @@ function BeginTest_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to BeginTest (see VARARGIN)
 
 %Most recent datavpath = null
+global latestData;
+
 dataFolder = 'UserData';
-setappdata(gcf, 'dataPath', dataFolder);
+latestDataFile = 'latest.txt';
 if ~exist(dataFolder, 'dir')
    mkdir(dataFolder); 
+end
+
+latestData = fullfile(dataFolder, latestDataFile);
+if ~exist(latestData, 'file')
+   fid = fopen(latestData, 'wt+'); 
+   fclose(fid);
+end
+
+fid = fopen(latestData, 'r');
+latestFile = fgetl(fid);
+fclose(fid);
+
+if ischar(latestFile)
+    %There is latest file path
+    %Load it
+    A = loadUserData(latestFile);
+    setappdata(gcf, 'userData', A);
+    
+    set(handles.lnLabel, 'String', A{2});
+    set(handles.fnLabel, 'String', A{1});
+    set(handles.wsLabel, 'String', A{3});
+    set(handles.pLabel, 'String', A{4});
+    set(handles.dimLabel, 'String', A{5});
+    set(handles.nsLabel, 'String', A{6});
+else
+    set(handles.okayButton, 'enable', 'off');
 end
 
 % Choose default command line output for BeginTest
@@ -102,8 +130,16 @@ function loadDataButton_Callback(hObject, eventdata, handles)
 % hObject    handle to loadDataButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global latestData;
+
 [fileName, pathName] = uigetfile('*.din', 'Please Select a .din file');
 file = fullfile(pathName, fileName);
+
+%update latest file
+fid = fopen(latestData, 'rt+');
+fprintf(fid, '%s', file);
+fclose(fid);
+
 A = loadUserData(file);
 setappdata(gcbf, 'userData', A);
 

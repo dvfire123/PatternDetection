@@ -15,7 +15,7 @@ function file = saveUserData(fig, folder)
     
     %Create and Save the file
     file = fullfile(fulFolder, fileName);
-    fid = fopen(file, 'wt');
+    fid = fopen(file, 'rt+');
     
     %Write to the file
     fprintf(fid, '%s\n', fn);

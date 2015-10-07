@@ -53,8 +53,7 @@ function DrawTarget_OpeningFcn(hObject, eventdata, handles, varargin)
 targ = ones(10, 10);
 setappdata(0, 'targ', targ);
 setappdata(0, 'invTarg', targ);
-targAx = findobj('Tag', 'drawTarget');
-set(targAx, 'UserData', targ);
+set(handles.drawTarget, 'UserData', targ);
 
 % Choose default command line output for DrawTarget
 handles.output = hObject;
@@ -101,8 +100,20 @@ function saveTargetButton_Callback(hObject, eventdata, handles)
 % hObject    handle to saveTargetButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-%FileName = uiputfile;
+FileName = uiputfile('*.pdd', 'Saving your target');
+fid = fopen(FileName, 'wt+');
+targ = get(handles.drawTarget, 'UserData');
 
+for i = 1:10
+   %10 is the height of the targ
+   for j = 1:10
+       %10 is the width of the targ
+      fprintf(fid, '%d', targ(i, j)); 
+   end
+   fprintf(fid, '\n');
+end
+
+fclose(fid);
 
 % --- Executes on button press in loadTargetButton.
 function loadTargetButton_Callback(hObject, eventdata, handles)
