@@ -129,6 +129,10 @@ targ = ones(10, 10);
 [fileName, pathName] = uigetfile('*.sdt', 'Please Select a .sdt file');
 file = fullfile(pathName, fileName);
 fid = fopen(file, 'r');
+if fid == -1
+    return;
+end
+
 B = fread(fid);
 fclose(fid);
 

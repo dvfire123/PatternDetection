@@ -51,7 +51,10 @@ function ActualTest_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to ActualTest (see VARARGIN)
-global percentWhite sHeight sWidth prob targ Ns outFile t correct totTime;
+global percentWhite sHeight sWidth prob Ns dispTime waitTime;
+global waitTimer dispTimer;
+global targ;
+global outFile correct totTime;
 
 %Load parameters
 Inputs = getappdata(BeginTest, 'userData');
@@ -61,6 +64,11 @@ prob = str2double(Inputs{4});
 sHeight = str2double(Inputs{5});
 sWidth = sHeight;
 Ns = str2double(Inputs{6});
+dispTime = str2double(Inputs{7});
+waitTime = str2double(Inputs{8});
+
+set(handles.timerText, 'String', num2str(waitTime));
+
 correct = 0;
 totTime = 0;
 
@@ -109,12 +117,12 @@ fclose(fid);
 
 %Now we have to set up the timer before displaying the
 %stimulus
-t = timer;
-t.period = 1;
-set(t,'ExecutionMode','fixedrate','StartDelay',0);
-set(t, 'TimerFcn', {@countDown, handles});
-set(t, 'StopFcn', {@timesup, handles});
-start(t);
+waitTimer = timer;
+waitTimer.period = 1;
+set(waitTimer,'ExecutionMode','fixedrate','StartDelay',1);
+set(waitTimer, 'TimerFcn', {@countDown, handles});
+set(waitTimer, 'StopFcn', {@timesup, handles});
+start(waitTimer);
 
 % UIWAIT makes ActualTest wait for user response (see UIRESUME)
 % uiwait(handles.actualTest);
@@ -155,28 +163,30 @@ function stimulus_ButtonDownFcn(hObject, eventdata, handles)
 
 %---Calls when the countdown is happening---
 function countDown(hObject, eventdata, handles)
-global t;
+global waitTimer;
 c = str2double(get(handles.timerText, 'String'));
 c = c - 1;
 set(handles.timerText, 'String', num2str(c));
 if c <= 0
-   stop(t); 
+   stop(waitTimer); 
 end
 
 
 %---Calls when the timer is up---
 function timesup(hObject, eventdata, handles)
-global t;
+global waitTimer;
 set(handles.yesButton, 'Enable', 'on');
 set(handles.noButton, 'Enable', 'on');
 set(handles.timerText, 'Visible', 'off');
-delete(t);
 tic;
 
 
 %%Records User Response
 function response(hObject, eventdata, handles, isYes)
-global percentWhite sHeight sWidth prob targ Ns outFile correct totTime;
+global percentWhite sHeight sWidth prob targ Ns;
+global outFile correct totTime
+global waitTimer dispTimer;
+
 timeSpent = toc;
 totTime = totTime + timeSpent;
 
@@ -229,5 +239,13 @@ else
     s = sprintf('Test: %d/%d', testNum, Ns);
     set(handles.testCountLabel, 'String', s);
     set(handles.testCountLabel, 'UserData', testNum);
-    tic;
+    restartWaitTimer(handles);
 end
+
+function restartWaitTimer(handles)
+global waitTimer waitTime;
+set(handles.yesButton, 'Enable', 'off');
+set(handles.noButton, 'Enable', 'off');
+set(handles.timerText, 'String', num2str(waitTime));
+set(handles.timerText, 'Visible', 'on');
+start(waitTimer);
