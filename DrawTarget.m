@@ -100,7 +100,9 @@ function saveTargetButton_Callback(hObject, eventdata, handles)
 % hObject    handle to saveTargetButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-FileName = uiputfile('*.pdd', 'Saving your target');
+
+%sdt stands for signal detection target
+FileName = uiputfile('*.sdt', 'Saving your target');
 fid = fopen(FileName, 'wt+');
 targ = get(handles.drawTarget, 'UserData');
 
@@ -120,6 +122,38 @@ function loadTargetButton_Callback(hObject, eventdata, handles)
 % hObject    handle to loadTargetButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+hold on;
+%Retrieve stored target
+targ = ones(10, 10);
+[fileName, pathName] = uigetfile('*.sdt', 'Please Select a .sdt file');
+file = fullfile(pathName, fileName);
+fid = fopen(file, 'r');
+B = fread(fid);
+fclose(fid);
+
+Bindx = 0;
+
+%Sorry for the hardcoded magic numbers
+%but it is the most efficient way
+
+for i = 1:10
+    for j = 1:10
+      Bindx = Bindx + 1;
+      targ(i, j) = B(Bindx) - '0';
+    end
+    Bindx = Bindx + 1;   %the return sign
+end
+
+newTarg = targ;
+[m, ~] = size(targ);
+for i = 1:m
+   newTarg(i, :) = targ(m + 1 - i, :);
+end
+
+set(handles.drawTarget, 'UserData', targ);
+targHandle = displayTarget(targ, handles.drawTarget);
+set(targHandle, 'HitTest', 'off');
 
 
 % --- Executes on button press in clearButton.
