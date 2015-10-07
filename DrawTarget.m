@@ -102,17 +102,25 @@ function saveTargetButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %sdt stands for signal detection target
-FileName = uiputfile('*.sdt', 'Saving your target');
-fid = fopen(FileName, 'wt+');
+[FileName, pathName] = uiputfile('*.sdt', 'Saving your target');
+
+%If the dialog box is cancelled
+if pathName == 0
+    return;
+end
+
+file = fullfile(pathName, FileName);
+
+fid = fopen(file, 'wt+');
 targ = get(handles.drawTarget, 'UserData');
 
+%The target is stored as a column vector of 0 and 1's
 for i = 1:10
    %10 is the height of the targ
    for j = 1:10
        %10 is the width of the targ
-      fprintf(fid, '%d', targ(i, j)); 
+      fprintf(fid, '%d\n', targ(i, j)); 
    end
-   fprintf(fid, '\n');
 end
 
 fclose(fid);
@@ -123,18 +131,20 @@ function loadTargetButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-hold on;
-%Retrieve stored target
 targ = ones(10, 10);
 [fileName, pathName] = uigetfile('*.sdt', 'Please Select a .sdt file');
-file = fullfile(pathName, fileName);
-fid = fopen(file, 'r');
-if fid == -1
+if pathName == 0
     return;
 end
 
-B = fread(fid);
-fclose(fid);
+delete(get(handles.drawTarget, 'Children'));
+axes(handles.drawTarget);
+hold on;
+
+file = fullfile(pathName, fileName);
+fid = fopen(file, 'r');
+
+B = fscanf(fid, '%d');
 
 Bindx = 0;
 
@@ -144,9 +154,8 @@ Bindx = 0;
 for i = 1:10
     for j = 1:10
       Bindx = Bindx + 1;
-      targ(i, j) = B(Bindx) - '0';
+      targ(i, j) = B(Bindx);
     end
-    Bindx = Bindx + 1;   %the return sign
 end
 
 newTarg = targ;
