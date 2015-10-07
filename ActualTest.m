@@ -22,7 +22,7 @@ function varargout = ActualTest(varargin)
 
 % Edit the above text to modify the response to help ActualTest
 
-% Last Modified by GUIDE v2.5 30-Sep-2015 21:19:44
+% Last Modified by GUIDE v2.5 07-Oct-2015 18:07:41
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -52,7 +52,7 @@ function ActualTest_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to ActualTest (see VARARGIN)
 global percentWhite sHeight sWidth prob Ns dispTime waitTime;
-global waitTimer dispTimer;
+global waitTimer dispTimer timeLeft;
 global targ;
 global outFile correct totTime;
 
@@ -113,6 +113,7 @@ fid = fopen(outFile, 'at');
 fprintf(fid, 'Name: %s, %s\n', ln, fn);
 fprintf(fid, '%s\n', datestr(now));
 fprintf(fid, '\n');
+fprintf(fid, 'Stimulus display time: %f sec\n', dispTime);
 fclose(fid);
 
 %Now we have to set up the timer before displaying the
@@ -122,6 +123,17 @@ waitTimer.period = 1;
 set(waitTimer,'ExecutionMode','fixedrate','StartDelay',1);
 set(waitTimer, 'TimerFcn', {@countDown, handles});
 set(waitTimer, 'StopFcn', {@timesup, handles});
+
+%Set up display timer, but of course don't start it until wait timer
+%is done
+dispTimer = timer;
+dispTimer.period = 1;
+set(dispTimer,'ExecutionMode','fixedrate','StartDelay', 0);
+set(dispTimer, 'TimerFcn', {@dispTimeGoing, handles});
+set(dispTimer, 'StopFcn', {@dispTimesUp, handles});
+timeLeft = dispTime;
+
+%begin the actual test
 start(waitTimer);
 
 % UIWAIT makes ActualTest wait for user response (see UIRESUME)
@@ -161,9 +173,11 @@ function stimulus_ButtonDownFcn(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
-%---Calls when the countdown is happening---
+%---Timer Callbacks---
+%wait timer callbacks
 function countDown(hObject, eventdata, handles)
-global waitTimer;
+global waitTimer dispTimer;
+stop(dispTimer);
 c = str2double(get(handles.timerText, 'String'));
 c = c - 1;
 set(handles.timerText, 'String', num2str(c));
@@ -171,21 +185,44 @@ if c <= 0
    stop(waitTimer); 
 end
 
-
-%---Calls when the timer is up---
 function timesup(hObject, eventdata, handles)
-global waitTimer;
 set(handles.yesButton, 'Enable', 'on');
 set(handles.noButton, 'Enable', 'on');
 set(handles.timerText, 'Visible', 'off');
+restartDispTimer(handles)
 tic;
 
+function restartWaitTimer(handles)
+global waitTimer waitTime;
+set(handles.yesButton, 'Enable', 'off');
+set(handles.noButton, 'Enable', 'off');
+set(handles.timerText, 'String', num2str(waitTime));
+set(handles.timerText, 'Visible', 'on');
+start(waitTimer);
 
-%%Records User Response
+%Display timer callbacks
+function dispTimesUp(hObject, eventdata, handles)
+%Empty function
+
+function dispTimeGoing(hObject, eventdata, handles)
+global dispTimer timeLeft;
+timeLeft = timeLeft - 1;
+if timeLeft < 0
+    drawBlankStim(handles);
+    stop(dispTimer);
+end
+
+function restartDispTimer(handles)
+global dispTimer timeLeft dispTime;
+timeLeft = dispTime;
+start(dispTimer);
+
+%%Helpers
+%Records User Response
 function response(hObject, eventdata, handles, isYes)
 global percentWhite sHeight sWidth prob targ Ns;
-global outFile correct totTime
-global waitTimer dispTimer;
+global outFile correct totTime dispTime dispTimer;
+stop(dispTimer);
 
 timeSpent = toc;
 totTime = totTime + timeSpent;
@@ -215,7 +252,11 @@ end
 s = sprintf('Trial %d of %d\tUser: %s\tActual: %s\tResponse time: %f sec',...
     testNum, Ns, userStr, resStr, timeSpent);
 fid = fopen(outFile, 'at');
-fprintf(fid, '%s\n', s);
+fprintf(fid, '%s', s);
+if timeSpent > dispTime && res == isYes
+    fprintf(fid, ' (you guessed!)');
+end
+fprintf(fid, '\n');
 fclose(fid);
 
 testNum = testNum + 1;
@@ -242,10 +283,10 @@ else
     restartWaitTimer(handles);
 end
 
-function restartWaitTimer(handles)
-global waitTimer waitTime;
-set(handles.yesButton, 'Enable', 'off');
-set(handles.noButton, 'Enable', 'off');
-set(handles.timerText, 'String', num2str(waitTime));
-set(handles.timerText, 'Visible', 'on');
-start(waitTimer);
+%draw blank stimulus
+function drawBlankStim(handles)
+global sHeight sWidth;
+axes(handles.stimulus);
+delete(get(handles.stimulus, 'Children'));
+hold on;
+blankStimulus(sHeight, sWidth, handles.stimulus);

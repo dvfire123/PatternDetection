@@ -240,7 +240,8 @@ global dataFolder latestData;
 file = saveUserData(gcbf, dataFolder);
 
 %write latest save path to latest.dat
-fid = fopen(latestData, 'rt+');
+%wt for complete overwrite
+fid = fopen(latestData, 'wt+');
 fprintf(fid, '%s', file);
 fclose(fid);
 

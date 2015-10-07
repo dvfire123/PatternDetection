@@ -147,7 +147,8 @@ end
 fclose(fid);
 
 %update latest file
-fid = fopen(latestData, 'rt+');
+%wt for complete overwrite
+fid = fopen(latestData, 'wt+');
 if fid == -1
     return;
 end
