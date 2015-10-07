@@ -22,7 +22,7 @@ function varargout = EnterDataBox(varargin)
 
 % Edit the above text to modify the response to help EnterDataBox
 
-% Last Modified by GUIDE v2.5 04-Oct-2015 17:33:12
+% Last Modified by GUIDE v2.5 07-Oct-2015 16:31:12
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -289,6 +289,52 @@ function Ns_Callback(hObject, eventdata, handles)
 % --- Executes during object creation, after setting all properties.
 function Ns_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to Ns (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function dispTime_Callback(hObject, eventdata, handles)
+% hObject    handle to dispTime (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of dispTime as text
+%        str2double(get(hObject,'String')) returns contents of dispTime as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function dispTime_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to dispTime (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function waitTime_Callback(hObject, eventdata, handles)
+% hObject    handle to waitTime (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of waitTime as text
+%        str2double(get(hObject,'String')) returns contents of waitTime as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function waitTime_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to waitTime (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 

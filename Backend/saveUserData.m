@@ -11,11 +11,11 @@ function file = saveUserData(fig, folder)
     fn = get(fnHandle, 'String');
     
     fileName = sprintf('%s-%s.din', fn, ln);
-    fulFolder = folder
+    fulFolder = folder;
     
     %Create and Save the file
     file = fullfile(fulFolder, fileName);
-    fid = fopen(file, 'rt+');
+    fid = fopen(file, 'wt+');
     
     %Write to the file
     fprintf(fid, '%s\n', fn);
