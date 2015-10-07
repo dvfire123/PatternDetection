@@ -22,10 +22,10 @@ function isInTarget = genStimulus(p, height, width, percentWhite, target, axesHa
        stim(xinsert:xinsert+xt-1, yinsert:yinsert+yt-1) = newTar;
     end    
     
-    xl = get(axesHandle, 'XLim');
-    yl = get(axesHandle, 'YLim');
+    xl = [1/(2*width), 1 - 1/(2*width)];
+    yl = [1/(2*height), 1 - 1/(2*height)];
     
-    stimHandle = imagesc(xl, yl, stim, 'parent', axesHandle);
+    imagesc(xl, yl, stim, 'parent', axesHandle);
     colormap('gray');
     axis equal;
 end

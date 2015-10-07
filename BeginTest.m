@@ -94,7 +94,7 @@ function quitButton_Callback(hObject, eventdata, handles)
 % hObject    handle to quitButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-close(BeginTest);
+close(gcbf);
 
 
 % --- Executes on button press in loadDataButton.
@@ -108,19 +108,12 @@ A = loadUserData(file);
 setappdata(gcbf, 'userData', A);
 
 %This section updates the info on the begin test panel
-lnHandle = findobj(gcbf, 'Tag', 'lnLabel');
-fnHandle = findobj(gcbf, 'Tag', 'fnLabel');
-wsHandle = findobj(gcbf, 'Tag', 'wsLabel');
-probHandle = findobj(gcbf, 'Tag', 'pLabel');
-dimHandle = findobj(gcbf, 'Tag', 'dimLabel');
-nsHandle = findobj(gcbf, 'Tag', 'nsLabel');
-
-set(lnHandle, 'String', A{2});
-set(fnHandle, 'String', A{1});
-set(wsHandle, 'String', A{3});
-set(probHandle, 'String', A{4});
-set(dimHandle, 'String', A{5});
-set(nsHandle, 'String', A{6});
+set(handles.lnLabel, 'String', A{2});
+set(handles.fnLabel, 'String', A{1});
+set(handles.wsLabel, 'String', A{3});
+set(handles.pLabel, 'String', A{4});
+set(handles.dimLabel, 'String', A{5});
+set(handles.nsLabel, 'String', A{6});
 
 %Turn on Begin Test Button
 okHandle = findobj(BeginTest, 'Tag', 'okayButton');
