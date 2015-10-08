@@ -81,16 +81,18 @@ if ischar(latestFile)
     %There is latest file path
     %Load it
     A = loadUserData(latestFile);
-    setappdata(gcf, 'userData', A);
     
-    set(handles.lnLabel, 'String', A{2});
-    set(handles.fnLabel, 'String', A{1});
-    set(handles.wsLabel, 'String', A{3});
-    set(handles.pLabel, 'String', A{4});
-    set(handles.dimLabel, 'String', A{5});
-    set(handles.nsLabel, 'String', A{6});
-    set(handles.dtLabel, 'String', A{7});
-    set(handles.wtLabel, 'String', A{8});
+    if ~isempty(A)
+        setappdata(gcf, 'userData', A);
+        set(handles.lnLabel, 'String', A{2});
+        set(handles.fnLabel, 'String', A{1});
+        set(handles.wsLabel, 'String', A{3});
+        set(handles.pLabel, 'String', A{4});
+        set(handles.dimLabel, 'String', A{5});
+        set(handles.nsLabel, 'String', A{6});
+        set(handles.dtLabel, 'String', A{7});
+        set(handles.wtLabel, 'String', A{8});
+    end
 else
     set(handles.okayButton, 'enable', 'off');
 end

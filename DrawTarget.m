@@ -22,7 +22,7 @@ function varargout = DrawTarget(varargin)
 
 % Edit the above text to modify the response to help DrawTarget
 
-% Last Modified by GUIDE v2.5 04-Oct-2015 12:04:40
+% Last Modified by GUIDE v2.5 08-Oct-2015 12:04:53
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -210,6 +210,13 @@ set(targHandle, 'HitTest', 'off');
 % --- Executes on mouse press over figure background, over a disabled or
 % --- inactive control, or over an axes background.
 function beginTest_WindowButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to beginTest (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes during object deletion, before destroying properties.
+function beginTest_DeleteFcn(hObject, eventdata, handles)
 % hObject    handle to beginTest (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)

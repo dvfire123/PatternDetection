@@ -22,7 +22,7 @@ function varargout = ActualTest(varargin)
 
 % Edit the above text to modify the response to help ActualTest
 
-% Last Modified by GUIDE v2.5 07-Oct-2015 18:42:12
+% Last Modified by GUIDE v2.5 08-Oct-2015 12:01:44
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -115,8 +115,14 @@ outFile = fullfile(resFolder, fileName);
 fid = fopen(outFile, 'at');
 fprintf(fid, 'Name: %s, %s\n', ln, fn);
 fprintf(fid, '%s\n', datestr(now));
+fprintf(fid, '\nTest Parameters:\n');
+fprintf(fid, 'Stimulus no. of dots per dimension: %d\n', sHeight);
+fprintf(fid, 'Percentage of whitespace: %f\n', percentWhite);
+fprintf(fid, 'Probability of target presence: %f\n', prob);
+fprintf(fid, 'Number of trials: %d\n', Ns);
+fprintf(fid, 'Display Time for each stimulus: %f sec\n', dispTime);
+fprintf(fid, 'Wait time between consecutive trials: %f sec\n', waitTime);
 fprintf(fid, '\n');
-fprintf(fid, 'Stimulus display time: %f sec\n', dispTime);
 fclose(fid);
 
 %Now we have to set up the timer before displaying the
@@ -256,9 +262,6 @@ s = sprintf('Trial %d of %d\tUser: %s\tActual: %s\tResponse time: %f sec',...
     testNum, Ns, userStr, resStr, timeSpent);
 fid = fopen(outFile, 'at');
 fprintf(fid, '%s', s);
-if timeSpent > dispTime && res == isYes
-    fprintf(fid, ' (you guessed!)');
-end
 fprintf(fid, '\n');
 fclose(fid);
 
@@ -313,3 +316,10 @@ switch eventdata.Key
         noButton_Callback(hObject, eventdata, handles)
       end
 end
+
+
+% --- Executes during object deletion, before destroying properties.
+function actualTest_DeleteFcn(hObject, eventdata, handles)
+% hObject    handle to actualTest (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)

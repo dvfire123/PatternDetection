@@ -76,13 +76,17 @@ fclose(fid);
 if ischar(latestFile)
     %There is latest file path
     %Load it
-    A = loadUserData(latestFile);    
-    set(handles.lastName, 'String', A{2});
-    set(handles.firstName, 'String', A{1});
-    set(handles.wspace, 'String', A{3});
-    set(handles.p, 'String', A{4});
-    set(handles.sDim, 'String', A{5});
-    set(handles.Ns, 'String', A{6});
+    A = loadUserData(latestFile); 
+    if ~isempty(A)
+        set(handles.lastName, 'String', A{2});
+        set(handles.firstName, 'String', A{1});
+        set(handles.wspace, 'String', A{3});
+        set(handles.p, 'String', A{4});
+        set(handles.sDim, 'String', A{5});
+        set(handles.Ns, 'String', A{6});
+        set(handles.dispTime, 'String', A{7});
+        set(handles.waitTime, 'String', A{8});
+    end
 end
 
 % Choose default command line output for EnterDataBox
