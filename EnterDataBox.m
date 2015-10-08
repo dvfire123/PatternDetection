@@ -55,6 +55,9 @@ function EnterDataBox_OpeningFcn(hObject, eventdata, handles, varargin)
 %Load latest save info if exists
 global dataFolder latestData; 
 [folder, ~, ~] = fileparts(mfilename('fullpath'));
+if isdeployed
+    folder = pwd;
+end
 userFolder = 'UserData';
 dataFolder = fullfile(folder, userFolder);
 

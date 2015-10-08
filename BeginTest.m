@@ -56,6 +56,9 @@ function BeginTest_OpeningFcn(hObject, eventdata, handles, varargin)
 global latestData;
 
 [folder, ~, ~] = fileparts(mfilename('fullpath'));
+if isdeployed
+    folder = pwd;
+end
 userFolder = 'UserData';
 dataFolder = fullfile(folder, userFolder);
 

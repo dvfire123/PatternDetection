@@ -97,6 +97,9 @@ guidata(hObject, handles);
 
 %%Create the output folder%%
 [folder, ~, ~] = fileparts(mfilename('fullpath'));
+if isdeployed
+    folder = pwd;
+end
 resFolder = 'Results';
 resFolder = fullfile(folder, resFolder);
 if ~exist(resFolder, 'dir')
