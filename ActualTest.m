@@ -266,7 +266,6 @@ fprintf(fid, '\n');
 fclose(fid);
 
 testNum = testNum + 1;
-res = genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
 set(gcbf, 'UserData', res);
 
 if testNum > Ns
@@ -287,6 +286,7 @@ else
     set(handles.testCountLabel, 'String', s);
     set(handles.testCountLabel, 'UserData', testNum);
     restartWaitTimer(handles);
+    res = genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
 end
 
 %draw blank stimulus
