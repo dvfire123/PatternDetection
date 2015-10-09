@@ -266,7 +266,6 @@ fprintf(fid, '\n');
 fclose(fid);
 
 testNum = testNum + 1;
-set(gcbf, 'UserData', res);
 
 if testNum > Ns
    hitRate = 100*correct/Ns;
@@ -287,6 +286,7 @@ else
     set(handles.testCountLabel, 'UserData', testNum);
     restartWaitTimer(handles);
     res = genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
+    set(gcbf, 'UserData', res);
 end
 
 %draw blank stimulus
