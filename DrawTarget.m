@@ -22,7 +22,7 @@ function varargout = DrawTarget(varargin)
 
 % Edit the above text to modify the response to help DrawTarget
 
-% Last Modified by GUIDE v2.5 08-Oct-2015 12:04:53
+% Last Modified by GUIDE v2.5 09-Oct-2015 13:38:03
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -50,6 +50,7 @@ function DrawTarget_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to DrawTarget (see VARARGIN)
+
 targ = ones(10, 10);
 setappdata(0, 'targ', targ);
 setappdata(0, 'invTarg', targ);
@@ -218,5 +219,28 @@ function beginTest_WindowButtonDownFcn(hObject, eventdata, handles)
 % --- Executes during object deletion, before destroying properties.
 function beginTest_DeleteFcn(hObject, eventdata, handles)
 % hObject    handle to beginTest (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in previewButton.
+function previewButton_Callback(hObject, eventdata, handles)
+% hObject    handle to previewButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+targ = get(handles.drawTarget, 'UserData');
+newTarg = targ;
+[m, ~] = size(targ);
+for i = 1:m
+   newTarg(i, :) = targ(m + 1 - i, :);
+end
+setappdata(0, 'invTarg2', newTarg);
+figure(previewStimulus);
+
+
+% --- If Enable == 'on', executes on mouse press in 5 pixel border.
+% --- Otherwise, executes on mouse press in 5 pixel border or over previewButton.
+function previewButton_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to previewButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
