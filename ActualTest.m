@@ -217,8 +217,8 @@ function dispTimeGoing(hObject, eventdata, handles)
 global dispTimer timeLeft;
 timeLeft = timeLeft - 1;
 if timeLeft < 0
-    drawBlankStim(handles);
     stop(dispTimer);
+    drawBlankStim(handles);
 end
 
 function restartDispTimer(handles)
@@ -230,7 +230,7 @@ start(dispTimer);
 %Records User Response
 function response(hObject, eventdata, handles, isYes)
 global percentWhite sHeight sWidth prob targ Ns;
-global outFile correct totTime dispTime dispTimer;
+global outFile correct totTime dispTimer;
 stop(dispTimer);
 
 timeSpent = toc;
@@ -266,7 +266,6 @@ fprintf(fid, '\n');
 fclose(fid);
 
 testNum = testNum + 1;
-res = genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
 set(gcbf, 'UserData', res);
 
 if testNum > Ns
@@ -287,6 +286,7 @@ else
     set(handles.testCountLabel, 'String', s);
     set(handles.testCountLabel, 'UserData', testNum);
     restartWaitTimer(handles);
+    res = genStimulus(prob, sHeight, sWidth, percentWhite, targ, handles.stimulus);
 end
 
 %draw blank stimulus
