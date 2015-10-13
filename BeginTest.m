@@ -175,8 +175,7 @@ set(handles.dtLabel, 'String', A{7});
 set(handles.wtLabel, 'String', A{8});
 
 %Turn on Begin Test Button
-okHandle = findobj(BeginTest, 'Tag', 'okayButton');
-set(okHandle, 'Enable', 'on');
+set(handles.okayButton, 'Enable', 'on');
 
 % --- Executes on button press in enterDataButton.
 function enterDataButton_Callback(hObject, eventdata, handles)
