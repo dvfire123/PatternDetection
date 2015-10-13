@@ -163,6 +163,9 @@ function wspace_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of wspace as text
 %        str2double(get(hObject,'String')) returns contents of wspace as a double
+ws = str2double(get(hObject, 'String'));
+ws = max(0, min(ws, 100));
+set(hObject, 'String', num2str(ws));
 
 
 % --- Executes during object creation, after setting all properties.
@@ -186,6 +189,9 @@ function p_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of p as text
 %        str2double(get(hObject,'String')) returns contents of p as a double
+p = str2double(get(hObject, 'String'));
+p = max(0, min(p, 1));
+set(hObject, 'String', num2str(p));
 
 
 % --- Executes during object creation, after setting all properties.
@@ -209,23 +215,14 @@ function sDim_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of sDim as text
 %        str2double(get(hObject,'String')) returns contents of sDim as a double
+sDim = str2double(get(hObject, 'String'));
+sDim = max(10, min(sDim, 100));
+set(hObject, 'String', num2str(sDim));
 
 
 % --- Executes during object creation, after setting all properties.
 function sDim_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to sDim (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-% --- Executes during object creation, after setting all properties.
-function sWidth_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to sWidth (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -296,6 +293,9 @@ function Ns_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of Ns as text
 %        str2double(get(hObject,'String')) returns contents of Ns as a double
+Ns = str2double(get(hObject, 'String'));
+Ns = max(1, Ns);
+set(hObject, 'String', num2str(Ns));
 
 
 % --- Executes during object creation, after setting all properties.
