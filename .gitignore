@@ -4,3 +4,4 @@ Results
 *.sdt
 *.asv
 Targets
+.DS_Store

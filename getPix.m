@@ -1,6 +1,6 @@
 function pix = getPix(coord)
     %Given the coordinate, get the pixel
-    %where the resolution is 10x8, and 
+    %where the resolution is 10x10, and 
     %both x and y axis has limits of 0 to 1
     
     x = coord(1);
